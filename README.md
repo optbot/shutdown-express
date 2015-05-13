@@ -1,24 +1,41 @@
-# express-graceful-shutdown
+# shutdown-express
 
-Ensure that during shutdown express returns correctly with a 503
+Middleware for Express that gracefully shuts down an instance.
 
-[![build status](https://secure.travis-ci.org/serby/express-graceful-shutdown.png)](http://travis-ci.org/serby/express-graceful-shutdown)
+Usage
+---
+### Basic
+You do not run or install this package like other optbot services. This is a library for use within those services to read configuration in a uniform fashion. You should only declare this as a dependency within your `package.json`.
 
-## Installation
+	"dependencies": {
+        "@optbot/shutdown-express": "git://github.com/optbot/shutdown-express.git",
+	}
 
-```
-npm install express-graceful-shutdown --save
-```
+### Details
+       
+Example from within an optbot service (hypothetically named `ui`):
 
-## Usage
+    var app = express();
+    var shutdown = require('@optbot/shutdown-express')();
 
-```js
-var express = require('express')
-  , app = express()
-  , createGracefulShutdownMiddleware = require('express-graceful-shutdown')
+    app.use(shutdown.middleware);
 
-app.use(createGracefulShutdownMiddleware)
-```
+    var server = app.listen(8080);
 
-## Credits
-[Paul Serby](https://github.com/serby/)
+    shutdown.extend(server);
+
+    server.closeGracefully(
+        null,
+        function gracefulShutdown() { /*Closing gracefully.*/ }
+        function forcefulShutdown() { /*Closing forcefully.*/ }
+    );
+
+Testing
+---
+### Code conformity
+    $ jshint lib test
+    $ jscs .
+
+Connects to
+---
+No connections
