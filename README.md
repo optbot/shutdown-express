@@ -33,7 +33,7 @@ Example from within an optbot service (hypothetically named `ui`):
 Testing
 ---
 ### Code conformity
-    $ jshint lib test
+    $ jshint lib
     $ jscs .
 
 Connects to
